@@ -12,8 +12,8 @@ tokens = [
 ]
 
 # EXPRESSÕES REGULARES SIMPLES
-t_VOGAL    = r'[aeiouáàâãéèêíïóôõöúAEIOUÁÀÂÃÉÈÍÏÓÔÕÖÚ]+'
-t_CONSONANT = r'[b-df-hj-np-tv-zçñ|B-DF-HJ-NP-TV-ZÇÑ]+'
+t_UPPERCASE    = r'[A-Z]+'
+t_LOWERCASE = r'[a-z]+'
 t_SYMBOL   = r'[-\+\*/\(\)\[\]\{\}\!\?\.\,\$\#\&\@\%\|\<\>\=\:\;\"\'\`\~\^\_\\]+'
 t_SPACE = r'[\s]'
 

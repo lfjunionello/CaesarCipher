@@ -2,7 +2,7 @@ from tkinter import E
 import ply.yacc as yacc
 
 # NECESSARIOS IMPORTAR OS TOKENS DO LEX
-from .lex import tokens
+from lex import tokens
 
 
 ''' GRAMATICA
@@ -34,11 +34,51 @@ def encryptStr(text, key):
     result = ''
     for i in text :
         temp = ''
-        for j in i[0]:
-            unicodeID = ord(j)
-            temp += chr(unicodeID+key[i[1]])
-        type = i[1][0].upper()
-        result += f'{type}<{temp}>'
+        """ print(i) """
+
+        if(i[1] == "symbol"):
+            for j in i[0]:
+                result += i[0]
+            continue
+
+        elif(i[1] == "upper"):
+            for j in i[0]:
+                unicodeID = ord(j)
+                unicodeID += key
+                if(unicodeID > 90):
+                    unicodeID -= 26
+                elif(unicodeID < 65):
+                    unicodeID += 26
+                result += chr(unicodeID)
+            continue
+
+        elif(i[1] == "lower"):
+            for j in i[0]:
+                unicodeID = ord(j)
+                unicodeID += key
+                if(unicodeID > 122):
+                    unicodeID -= 26
+                elif(unicodeID < 97):
+                    unicodeID += 26
+                result += chr(unicodeID)
+            continue
+
+        elif(i[1] == "number"):
+            for j in i[0]:
+                unicodeID = ord(j)
+                unicodeID += key
+                if(unicodeID > 57):
+                    unicodeID -= 10
+                elif(unicodeID < 48):
+                    unicodeID += 10
+                result += chr(unicodeID)
+            continue
+
+
+        """ unicodeID = ord(i[0])
+        temp += chr(unicodeID+key) 
+        type = i[1][0].upper()   # PEGAR O PRIMEIRO CARACTERE DO TIPO
+        result += f'{type}<{temp}>' """
     return result
 
 def generate_key(letter):
@@ -46,7 +86,8 @@ def generate_key(letter):
     return dic[letter] + '_k'
 
 def decryptStr(text, key):
-    result = ''
+    encryptStr(text, -key)
+    """ result = ''
     for i in text :
         temp = ''
         key_parsed = generate_key(i['type'])
@@ -55,8 +96,8 @@ def decryptStr(text, key):
             temp += chr(unicodeID-key[key_parsed])
             if temp == "_": 
                 temp = " "
-        result += temp
-    return result 
+        result += temp """
+    return encryptStr(text, -key) 
 
 # ARQUIVOS SÃO CONJUNTOS DE CONTEÚDOS 
 
@@ -91,20 +132,20 @@ def p_decrypted_text(p):
 # TEXTOS ENCRIPTADOS
 
 def p_encrypted(p):
-    'encrypted : encrypted object'
-    p[0] = p[1] + [p[2]]
+    'encrypted : text'
+    p[0] = p[1]
 
-def p_encrypted_object(p):
+""" def p_encrypted_object(p):
     'encrypted : object'
-    p[0] = [p[1]]
+    p[0] = [p[1]] """
     
 
 
 # OBJETOS SAO PASSADOS COMO FORAM RECONHECIDOS
-
+""" 
 def p_object(p):
     'object : EOBJECT'
-    p[0] = p[1]
+    p[0] = p[1] """
 
 
 
