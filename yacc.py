@@ -2,8 +2,6 @@ from tkinter import E
 import ply.yacc as yacc
 
 from lex import tokens
-
-
 ''' 
 <<GRAMATICA>>
 

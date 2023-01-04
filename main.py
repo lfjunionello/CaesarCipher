@@ -12,7 +12,7 @@ if len(sys.argv) > 1:
 
 
     if result is None: 
-        print('Não foi possível decriptar o arquivo!')
+        print('Não foi possível interpretar o arquivo!')
     else:
         try:
             result_file = open('result_' + sys.argv[1], 'w')
@@ -22,27 +22,4 @@ if len(sys.argv) > 1:
             print(f'Não foi possível gerar o novo arquivo!')
 
 else:
-    while True:
-        try:
-            input_str = input('file name -> ')
-        except EOFError:
-            break
-        if not input_str: continue
-
-        try:
-            content_file = open(input_str, 'r')
-            result = parser.parse(content_file.read())
-            content_file.close()
-        except:
-            print('Erro no parsing!')
-            continue
-
-        if result is None: 
-            print('Não foi possível decriptar o arquivo!')
-
-        try:
-            result_file = open('result_' + input_str, 'w')
-            result_file.write(result)
-            result_file.close()
-        except Exception as e:
-            print(f'Não foi possível gerar o novo arquivo!')
+    print('Nenhum arquivo foi passado como argumento! Esperado um arquivo .txt')
