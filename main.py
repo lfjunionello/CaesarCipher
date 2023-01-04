@@ -3,12 +3,12 @@ import sys
 
 if len(sys.argv) > 1:
     result = None
-    """ try: """
-    content_file = open(sys.argv[1], 'r')
-    result = parser.parse(content_file.read())
-    content_file.close()
-    """ except:
-        print('Arquivo não encontrado!') """
+    try:
+        content_file = open(sys.argv[1], 'r')
+        result = parser.parse(content_file.read())
+        content_file.close()
+    except:
+        print('Arquivo não encontrado!')
 
 
     if result is None: 
@@ -34,7 +34,7 @@ else:
             result = parser.parse(content_file.read())
             content_file.close()
         except:
-            print('Arquivo não encontrado!')
+            print('Erro no parsing!')
             continue
 
         if result is None: 

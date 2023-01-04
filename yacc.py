@@ -1,11 +1,11 @@
 from tkinter import E
 import ply.yacc as yacc
 
-# NECESSARIOS IMPORTAR OS TOKENS DO LEX
 from lex import tokens
 
 
-''' GRAMATICA
+''' 
+<<GRAMATICA>>
 
 file -> content
 
@@ -23,12 +23,6 @@ element -> LOWERCASE
 element -> NUMBER
 element -> SYMBOL
 element -> SPACE
-
----- ACERTAR ESSA PARTE AQUI
-
-
-
-
 '''
 def encryptStr(text, key):
     result = ''
@@ -38,7 +32,7 @@ def encryptStr(text, key):
 
         if(i[1] == "symbol"):
             for j in i[0]:
-                result += i[0]
+                result += j
             continue
 
         elif(i[1] == "upper"):
@@ -73,43 +67,17 @@ def encryptStr(text, key):
                     unicodeID += 10
                 result += chr(unicodeID)
             continue
-
-
-        """ unicodeID = ord(i[0])
-        temp += chr(unicodeID+key) 
-        type = i[1][0].upper()   # PEGAR O PRIMEIRO CARACTERE DO TIPO
-        result += f'{type}<{temp}>' """
     return result
 
-def generate_key(letter):
-    dic = {'C': 'consonant', 'N': 'number', 'V': 'vogal', 'S': 'symbol'}
-    return dic[letter] + '_k'
 
 def decryptStr(text, key):
-    encryptStr(text, -key)
-    """ result = ''
-    for i in text :
-        temp = ''
-        key_parsed = generate_key(i['type'])
-        for j in i['content']:
-            unicodeID = ord(j)
-            temp += chr(unicodeID-key[key_parsed])
-            if temp == "_": 
-                temp = " "
-        result += temp """
     return encryptStr(text, -key) 
-
-# ARQUIVOS SÃO CONJUNTOS DE CONTEÚDOS 
 
 
 
 def p_file(p):
     'file : content'
     p[0] = p[1]
-
-
-
-# CONTEUDOS SAO GERADOS DE UMA CHAVE E UM TEXTO DECRIPTADO OU ENCRIPTADO
 
 def p_content_d(p):
     'content : EKEY decrypted'
@@ -120,37 +88,17 @@ def p_content_e(p):
     p[0] = decryptStr(p[2], p[1])
 
 
-
-# TEXTOS DECRIPTADOS
-
+#Encriptado/decriptado
 def p_decrypted_text(p):
     'decrypted : text'
     p[0] = p[1]
-
-
-
-# TEXTOS ENCRIPTADOS
 
 def p_encrypted(p):
     'encrypted : text'
     p[0] = p[1]
 
-""" def p_encrypted_object(p):
-    'encrypted : object'
-    p[0] = [p[1]] """
-    
 
-
-# OBJETOS SAO PASSADOS COMO FORAM RECONHECIDOS
-""" 
-def p_object(p):
-    'object : EOBJECT'
-    p[0] = p[1] """
-
-
-
-# PALAVRAS SAO PASSADAS COMO LISTAS PARA ENCRIPTACAO
-
+# Texto
 def p_text_1(p):
     'text : text element'
     p[0] = p[1] + [p[2]]
@@ -161,9 +109,7 @@ def p_text_2(p):
 
 
 
-# ELEMENTOS SÃO IDENTIFICADOS COM SEUS RESPECTIVOS TIPOS PARA A ENCRIPTACAO 
-
-
+# Elementos
 def p_element_uppercase(p):
     'element : UPPERCASE'
     p[0] = (p[1],'upper')
@@ -185,9 +131,9 @@ def p_element_space(p):
     p[0] = (' ', 'symbol')
 
 
-# FUNÇÃO PARA LIDAR COM ERROS
+
 def p_error(p):
     print(f"Syntax error in input!")
 
-# BUILD DO PARSER
+# Buildando o parser
 parser = yacc.yacc()
